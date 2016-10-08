@@ -75,15 +75,19 @@
     (erase-buffer)
     (message "Running godoctor...")
     (let* ((win (display-buffer (current-buffer)))
-           (proc (apply #'call-process cmd)))
+           (proc (apply #'call-process cmd))
+           (successful (= proc 0)))
       (compilation-mode)
-      (if (= proc 0)
+      (if successful
           ;; If successful, kill the buffer
-          (kill-buffer compilation-buffer)
+          (progn
+            (kill-buffer compilation-buffer)
+            (setq msg "godoctor completed"))
         ;; Otherwise, keep it displayed with errors
         (shrink-window-if-larger-than-buffer win)
-        (set-window-point win (point-min)))
-      (message (format "godoctor exited with %d" proc)))))
+        (set-window-point win (point-min))
+        (setq msg (format "godoctor exited with %d" proc)))
+      (message msg))))
 
 ;;;###autoload
 (defun godoctor-rename ()
