@@ -79,7 +79,7 @@
       (if (and successful (not dry-run))
           ;; If successful *and* not dry run, kill the buffer
           (kill-buffer compilation-buffer)
-        ;; Otherwise, keep it displayed with errors
+        ;; Otherwise, keep it displayed with errors or diffs
         (shrink-window-if-larger-than-buffer win)
         (set-window-point win (point-min)))
       (message (if successful "godoctor completed"
