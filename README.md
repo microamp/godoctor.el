@@ -16,6 +16,10 @@ Emacs frontend for [godoctor](https://github.com/godoctor/godoctor).
 - `godoctor-extract`
 - `godoctor-toggle`
 - `godoctor-godoc`
+- `godoctor-rename-dry-run`
+- `godoctor-extract-dry-run`
+- `godoctor-toggle-dry-run`
+- `godoctor-godoc-dry-run`
 
 See [Getting Started](http://gorefactor.org/starting.html) for more details.
 

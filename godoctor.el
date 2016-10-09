@@ -36,32 +36,30 @@
 (defvar godoctor-refactoring-toggle "toggle")
 (defvar godoctor-refactoring-godoc "godoc")
 
-(defun godoctor-rename-cmd (pos new-name &optional filename)
-  (list godoctor-executable nil t nil
-        "-w"
-        "-file" (or filename (buffer-file-name))
-        "-pos" pos
-        godoctor-refactoring-rename new-name))
+(defun godoctor-cmd (args dry-run)
+  (let* ((cmd (list godoctor-executable nil t nil))
+         (with-dry-run (if dry-run args (cons "-w" args))))
+    (append cmd with-dry-run)))
 
-(defun godoctor-toggle-cmd (pos &optional filename)
-  (list godoctor-executable nil t nil
-        "-w"
-        "-file" (or filename (buffer-file-name))
-        "-pos" pos
-        godoctor-refactoring-toggle))
+(defun godoctor-rename-cmd (pos new-name &optional dry-run)
+  (godoctor-cmd (list "-file" (buffer-file-name) "-pos" pos
+                      godoctor-refactoring-rename new-name)
+                dry-run))
 
-(defun godoctor-extract-cmd (pos new-name &optional filename)
-  (list godoctor-executable nil t nil
-        "-w"
-        "-file" (or filename (buffer-file-name))
-        "-pos" pos
-        godoctor-refactoring-extract new-name))
+(defun godoctor-extract-cmd (pos new-name &optional dry-run)
+  (godoctor-cmd (list "-file" (buffer-file-name) "-pos" pos
+                      godoctor-refactoring-extract new-name)
+                dry-run))
 
-(defun godoctor-godoc-cmd (&optional filename)
-  (list godoctor-executable nil t nil
-        "-w"
-        "-file" (or filename (buffer-file-name))
-        godoctor-refactoring-godoc))
+(defun godoctor-toggle-cmd (pos &optional dry-run)
+  (godoctor-cmd (list "-file" (buffer-file-name) "-pos" pos
+                      godoctor-refactoring-toggle)
+                dry-run))
+
+(defun godoctor-godoc-cmd (&optional dry-run)
+  (godoctor-cmd (list "-file" (buffer-file-name)
+                      godoctor-refactoring-godoc)
+                dry-run))
 
 (defun get-pos-region ()
   (let* ((start (region-beginning))
@@ -69,7 +67,7 @@
          (len (- end start)))
     (format "%d,%d" start len)))
 
-(defun execute-godoctor-command (compilation-buffer cmd)
+(defun execute-godoctor-command (compilation-buffer cmd &optional dry-run)
   (with-current-buffer (get-buffer-create compilation-buffer)
     (setq buffer-read-only nil)
     (erase-buffer)
@@ -78,19 +76,17 @@
            (proc (apply #'call-process cmd))
            (successful (= proc 0)))
       (compilation-mode)
-      (if successful
-          ;; If successful, kill the buffer
-          (progn
-            (kill-buffer compilation-buffer)
-            (setq msg "godoctor completed"))
+      (if (and successful (not dry-run))
+          ;; If successful *and* not dry run, kill the buffer
+          (kill-buffer compilation-buffer)
         ;; Otherwise, keep it displayed with errors
         (shrink-window-if-larger-than-buffer win)
-        (set-window-point win (point-min))
-        (setq msg (format "godoctor exited with %d" proc)))
-      (message msg))))
+        (set-window-point win (point-min)))
+      (message (if successful "godoctor completed"
+                 (format "godoctor exited with %d" proc))))))
 
 ;;;###autoload
-(defun godoctor-rename ()
+(defun godoctor-rename (&optional dry-run)
   (interactive)
   (let ((symbol (symbol-at-point)))
     (unless symbol
@@ -101,31 +97,51 @@
            (len (length new-name))
            (pos (format "%d,%d" offset len))
            (new-name (read-string "New name: " new-name))
-           (cmd (godoctor-rename-cmd pos new-name)))
-      (execute-godoctor-command compilation-buffer cmd))))
+           (cmd (godoctor-rename-cmd pos new-name dry-run)))
+      (execute-godoctor-command compilation-buffer cmd dry-run))))
 
 ;;;###autoload
-(defun godoctor-extract ()
+(defun godoctor-rename-dry-run ()
+  (interactive)
+  (godoctor-rename t))
+
+;;;###autoload
+(defun godoctor-extract (&optional dry-run)
   (interactive)
   (let* ((compilation-buffer "*godoctor extract*")
          (pos (get-pos-region))
          (new-name (read-string "Function name: "))
-         (cmd (godoctor-extract-cmd pos new-name)))
-    (execute-godoctor-command compilation-buffer cmd)))
+         (cmd (godoctor-extract-cmd pos new-name dry-run)))
+    (execute-godoctor-command compilation-buffer cmd dry-run)))
 
 ;;;###autoload
-(defun godoctor-toggle ()
+(defun godoctor-extract-dry-run ()
+  (interactive)
+  (godoctor-extract t))
+
+;;;###autoload
+(defun godoctor-toggle (&optional dry-run)
   (interactive)
   (let* ((compilation-buffer "*godoctor toggle*")
          (pos (get-pos-region))
-         (cmd (godoctor-toggle-cmd pos)))
-    (execute-godoctor-command compilation-buffer cmd)))
+         (cmd (godoctor-toggle-cmd pos dry-run)))
+    (execute-godoctor-command compilation-buffer cmd dry-run)))
 
 ;;;###autoload
-(defun godoctor-godoc ()
+(defun godoctor-toggle-dry-run ()
+  (interactive)
+  (godoctor-toggle t))
+
+;;;###autoload
+(defun godoctor-godoc (&optional dry-run)
   (interactive)
   (let* ((compilation-buffer "*godoctor godoc*")
-         (cmd (godoctor-godoc-cmd)))
-    (execute-godoctor-command compilation-buffer cmd)))
+         (cmd (godoctor-godoc-cmd dry-run)))
+    (execute-godoctor-command compilation-buffer cmd dry-run)))
+
+;;;###autoload
+(defun godoctor-godoc-dry-run ()
+  (interactive)
+  (godoctor-godoc t))
 
 (provide 'godoctor)
