@@ -85,9 +85,14 @@
       (message (if successful "godoctor completed"
                  (format "godoctor exited with %d" proc))))))
 
+(defun check-executable ()
+  (unless (executable-find godoctor-executable)
+    (error (format "%s not installed" godoctor-executable))))
+
 ;;;###autoload
 (defun godoctor-rename (&optional dry-run)
   (interactive)
+  (check-executable)
   (let ((symbol (symbol-at-point)))
     (unless symbol
       (error "No symbol at point"))
@@ -108,6 +113,7 @@
 ;;;###autoload
 (defun godoctor-extract (&optional dry-run)
   (interactive)
+  (check-executable)
   (let* ((compilation-buffer "*godoctor extract*")
          (pos (get-pos-region))
          (new-name (read-string "Function name: "))
@@ -122,6 +128,7 @@
 ;;;###autoload
 (defun godoctor-toggle (&optional dry-run)
   (interactive)
+  (check-executable)
   (let* ((compilation-buffer "*godoctor toggle*")
          (pos (get-pos-region))
          (cmd (godoctor-toggle-cmd pos dry-run)))
@@ -137,6 +144,7 @@
   (interactive)
   (let* ((compilation-buffer "*godoctor godoc*")
          (cmd (godoctor-godoc-cmd dry-run)))
+  (check-executable)
     (execute-godoctor-command compilation-buffer cmd dry-run)))
 
 ;;;###autoload
