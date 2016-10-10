@@ -37,8 +37,8 @@
 (defvar godoctor-refactoring-godoc "godoc")
 
 (defun godoctor-cmd (args dry-run)
-  (let* ((cmd (list godoctor-executable nil t nil))
-         (with-dry-run (if dry-run args (cons "-w" args))))
+  (let ((cmd (list godoctor-executable nil t nil))
+        (with-dry-run (if dry-run args (cons "-w" args))))
     (append cmd with-dry-run)))
 
 (defun godoctor-rename-cmd (pos new-name &optional dry-run)
@@ -77,8 +77,8 @@
            (successful (= proc 0)))
       (compilation-mode)
       (if (and successful (not dry-run))
-          ;; If successful *and* not dry run, kill the buffer
-          (kill-buffer compilation-buffer)
+          ;; If successful *and* not dry run, quit the window
+          (quit-restore-window win)
         ;; Otherwise, keep it displayed with errors or diffs
         (shrink-window-if-larger-than-buffer win)
         (set-window-point win (point-min)))
@@ -142,9 +142,9 @@
 ;;;###autoload
 (defun godoctor-godoc (&optional dry-run)
   (interactive)
-  (let* ((compilation-buffer "*godoctor godoc*")
-         (cmd (godoctor-godoc-cmd dry-run)))
   (check-executable)
+  (let ((compilation-buffer "*godoctor godoc*")
+        (cmd (godoctor-godoc-cmd dry-run)))
     (execute-godoctor-command compilation-buffer cmd dry-run)))
 
 ;;;###autoload
