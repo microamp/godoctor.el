@@ -26,6 +26,10 @@
 
 ;;; Code:
 
+(defgroup godoctor nil
+  "Frontend for godoctor."
+  :group 'go)
+
 (defcustom godoctor-executable "godoctor"
   "Default executable for godoctor."
   :type 'string
