@@ -153,3 +153,4 @@
   (godoctor-godoc t))
 
 (provide 'godoctor)
+;;; godoctor.el ends here
