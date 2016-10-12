@@ -65,13 +65,13 @@
                       godoctor-refactoring-godoc)
                 dry-run))
 
-(defun get-pos-region ()
+(defun godoctor--get-pos-region ()
   (let* ((start (region-beginning))
          (end (region-end))
          (len (- end start)))
     (format "%d,%d" start len)))
 
-(defun execute-godoctor-command (compilation-buffer cmd &optional dry-run)
+(defun godoctor--execute-command (compilation-buffer cmd &optional dry-run)
   (with-current-buffer (get-buffer-create compilation-buffer)
     (setq buffer-read-only nil)
     (erase-buffer)
@@ -89,14 +89,14 @@
       (message (if successful "godoctor completed"
                  (format "godoctor exited with %d" proc))))))
 
-(defun check-executable ()
+(defun godoctor--check-executable ()
   (unless (executable-find godoctor-executable)
     (error (format "%s not installed" godoctor-executable))))
 
 ;;;###autoload
 (defun godoctor-rename (&optional dry-run)
   (interactive)
-  (check-executable)
+  (godoctor--check-executable)
   (let ((symbol (symbol-at-point)))
     (unless symbol
       (error "No symbol at point"))
@@ -107,7 +107,7 @@
            (pos (format "%d,%d" offset len))
            (new-name (read-string "New name: " new-name))
            (cmd (godoctor-rename-cmd pos new-name dry-run)))
-      (execute-godoctor-command compilation-buffer cmd dry-run))))
+      (godoctor--execute-command compilation-buffer cmd dry-run))))
 
 ;;;###autoload
 (defun godoctor-rename-dry-run ()
@@ -117,12 +117,12 @@
 ;;;###autoload
 (defun godoctor-extract (&optional dry-run)
   (interactive)
-  (check-executable)
+  (godoctor--check-executable)
   (let* ((compilation-buffer "*godoctor extract*")
-         (pos (get-pos-region))
+         (pos (godoctor--get-pos-region))
          (new-name (read-string "Function name: "))
          (cmd (godoctor-extract-cmd pos new-name dry-run)))
-    (execute-godoctor-command compilation-buffer cmd dry-run)))
+    (godoctor--execute-command compilation-buffer cmd dry-run)))
 
 ;;;###autoload
 (defun godoctor-extract-dry-run ()
@@ -132,11 +132,11 @@
 ;;;###autoload
 (defun godoctor-toggle (&optional dry-run)
   (interactive)
-  (check-executable)
+  (godoctor--check-executable)
   (let* ((compilation-buffer "*godoctor toggle*")
-         (pos (get-pos-region))
+         (pos (godoctor--get-pos-region))
          (cmd (godoctor-toggle-cmd pos dry-run)))
-    (execute-godoctor-command compilation-buffer cmd dry-run)))
+    (godoctor--execute-command compilation-buffer cmd dry-run)))
 
 ;;;###autoload
 (defun godoctor-toggle-dry-run ()
@@ -146,10 +146,10 @@
 ;;;###autoload
 (defun godoctor-godoc (&optional dry-run)
   (interactive)
-  (check-executable)
+  (godoctor--check-executable)
   (let ((compilation-buffer "*godoctor godoc*")
         (cmd (godoctor-godoc-cmd dry-run)))
-    (execute-godoctor-command compilation-buffer cmd dry-run)))
+    (godoctor--execute-command compilation-buffer cmd dry-run)))
 
 ;;;###autoload
 (defun godoctor-godoc-dry-run ()
