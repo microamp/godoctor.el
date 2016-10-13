@@ -82,7 +82,9 @@
       (compilation-mode)
       (if (and successful (not dry-run))
           ;; If successful *and* not dry run, quit the window
-          (quit-restore-window win)
+          (progn (quit-restore-window win)
+                 ;; TODO: Revert multiple buffers if necessary
+                 (revert-buffer t t t))
         ;; Otherwise, keep it displayed with errors or diffs
         (shrink-window-if-larger-than-buffer win)
         (set-window-point win (point-min)))
