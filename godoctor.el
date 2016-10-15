@@ -1,4 +1,4 @@
-;;; godoctor.el --- Emacs frontend for godoctor
+;;; godoctor.el --- Frontend for godoctor
 
 ;; Copyright (C) 2016 james sangho nah <microamp@protonmail.com>
 ;;
@@ -22,13 +22,13 @@
 
 ;;; Commentary:
 
-;; Emacs frontend for godoctor
+;; Frontend for godoctor
 
 ;;; Code:
 
 (defgroup godoctor nil
   "Frontend for godoctor."
-  :group 'go)
+  :group 'languages)
 
 (defcustom godoctor-executable "godoctor"
   "Default executable for godoctor."
