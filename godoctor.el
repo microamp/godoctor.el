@@ -28,7 +28,7 @@
 
 (defgroup godoctor nil
   "Frontend for godoctor."
-  :group 'go)
+  :group 'languages)
 
 (defcustom godoctor-executable "godoctor"
   "Default executable for godoctor."
