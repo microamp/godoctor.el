@@ -2,10 +2,13 @@
 
 Emacs frontend for [godoctor](https://github.com/godoctor/godoctor).
 
+## Installation
+
+The package is available on [MELPA](https://melpa.org). Run `M-x package-install <RET> godoctor <RET>` to install.
+
 ## Quickstart
 
 ```emacs-lisp
-(add-to-list 'load-path "path/to/godoctor.el/")
 (use-package go-mode
   :config (use-package godoctor))
 ```
