@@ -30,19 +30,19 @@ See [Getting Started](http://gorefactor.org/starting.html) for more details.
 
 ### `godoctor-rename`
 
-![godoctor-rename](https://cloud.githubusercontent.com/assets/1378791/19228157/e784c042-8f1e-11e6-944c-c00483c65398.gif)
+![godoctor-rename](https://cloud.githubusercontent.com/assets/1378791/19587359/510c200c-97ba-11e6-9d36-fdc07a583f56.gif)
 
 ### `godoctor-extract`
 
-![godoctor-extract](https://cloud.githubusercontent.com/assets/1378791/19228164/fb5755c6-8f1e-11e6-83e8-763722622a38.gif)
+![godoctor-extract](https://cloud.githubusercontent.com/assets/1378791/19587358/50c8ef8a-97ba-11e6-88fd-2360351df50f.gif)
 
 ### `godoctor-toggle`
 
-![godoctor-toggle](https://cloud.githubusercontent.com/assets/1378791/19228165/04883782-8f1f-11e6-8aed-2fe42d4dd9c7.gif)
+![godoctor-toggle](https://cloud.githubusercontent.com/assets/1378791/19587361/5131b920-97ba-11e6-9555-b81bf2695221.gif)
 
 ### `godoctor-godoc`
 
-![godoctor-godoc](https://cloud.githubusercontent.com/assets/1378791/19228166/049195ca-8f1f-11e6-88f3-246db64927d7.gif)
+![godoctor-godoc](https://cloud.githubusercontent.com/assets/1378791/19587360/510e99cc-97ba-11e6-8029-acfdbe015a45.gif)
 
 ## License
 
