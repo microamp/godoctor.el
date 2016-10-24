@@ -1,5 +1,7 @@
 # godoctor.el
 
+[![MELPA](https://melpa.org/packages/godoctor-badge.svg)](https://melpa.org/#/godoctor)
+
 Emacs frontend for [godoctor](https://github.com/godoctor/godoctor).
 
 ## Installation
