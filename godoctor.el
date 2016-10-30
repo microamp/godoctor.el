@@ -1,9 +1,9 @@
-;;; godoctor.el --- Frontend for godoctor, a refactoring tool for the Go programming language
+;;; godoctor.el --- Frontend for godoctor
 
 ;; Copyright (C) 2016 james sangho nah <microamp@protonmail.com>
 ;;
 ;; Author: james sangho nah <microamp@protonmail.com>
-;; Version: 0.0.6
+;; Version: 0.0.7
 ;; Keywords: go golang refactoring
 ;; Homepage: https://github.com/microamp/godoctor.el
 
@@ -22,7 +22,7 @@
 
 ;;; Commentary:
 
-;; Frontend for godoctor, a refactoring tool for the Go programming language
+;; Frontend for godoctor
 
 ;;; Code:
 
@@ -128,7 +128,7 @@
   (godoctor--error-if-unsaved)
   (let* ((compilation-buffer "*godoctor extract*")
          (pos (godoctor--get-pos-region))
-         (new-name (read-string "Function name: "))
+         (new-name (read-string "New name: "))
          (cmd (godoctor-extract-cmd pos new-name dry-run)))
     (godoctor--execute-command compilation-buffer cmd dry-run)))
 
