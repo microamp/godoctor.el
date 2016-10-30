@@ -128,7 +128,7 @@
   (godoctor--error-if-unsaved)
   (let* ((compilation-buffer "*godoctor extract*")
          (pos (godoctor--get-pos-region))
-         (new-name (read-string "Function name: "))
+         (new-name (read-string "New name: "))
          (cmd (godoctor-extract-cmd pos new-name dry-run)))
     (godoctor--execute-command compilation-buffer cmd dry-run)))
 
