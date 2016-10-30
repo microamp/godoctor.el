@@ -1,4 +1,4 @@
-;;; godoctor.el --- Frontend for godoctor, a refactoring tool for the Go programming language
+;;; godoctor.el --- Frontend for godoctor
 
 ;; Copyright (C) 2016 james sangho nah <microamp@protonmail.com>
 ;;
@@ -22,7 +22,7 @@
 
 ;;; Commentary:
 
-;; Frontend for godoctor, a refactoring tool for the Go programming language
+;; Frontend for godoctor
 
 ;;; Code:
 
