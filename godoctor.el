@@ -35,15 +35,22 @@
   :type 'string
   :group 'godoctor)
 
+(defcustom godoctor-scope ""
+  "The scope of the analysis.  See `godoctor-set-scope'."
+  :type 'string
+  :group 'godoctor)
+
 (defvar godoctor-refactoring-rename "rename")
 (defvar godoctor-refactoring-extract "extract")
 (defvar godoctor-refactoring-toggle "toggle")
 (defvar godoctor-refactoring-godoc "godoc")
+(defvar godoctor--scope-history nil "History of values supplied to `godoctor-set-scope'.")
 
 (defun godoctor-cmd (args dry-run)
   (let ((cmd (list godoctor-executable nil t nil))
-        (with-dry-run (if dry-run args (cons "-w" args))))
-    (append cmd with-dry-run)))
+        (with-dry-run (if dry-run args (cons "-w" args)))
+		(scope (if (string= "" godoctor-scope) nil (list "-scope" godoctor-scope))))
+    (append cmd scope with-dry-run)))
 
 (defun godoctor-rename-cmd (pos new-name &optional dry-run)
   (godoctor-cmd (list "-file" (buffer-file-name) "-pos" pos
@@ -165,6 +172,28 @@
 (defun godoctor-godoc-dry-run ()
   (interactive)
   (godoctor-godoc t))
+
+;;;###autoload
+(defun godoctor-set-scope ()
+  ; The set-scope command adapted from go-guru project.
+  "Set the scope for the godoctor, prompting the user to edit the previous scope.
+
+The scope restricts analysis to the specified packages.
+Its value is a comma-separated list of patterns of these forms:
+	golang.org/x/tools/cmd/guru     # a single package
+	golang.org/x/tools/...          # all packages beneath dir
+	...                             # the entire workspace.
+
+A pattern preceded by '-' is negative, so the scope
+	encoding/...,-encoding/xml
+matches all encoding packages except encoding/xml."
+  (interactive)
+  (let ((scope (read-from-minibuffer "Godoctor scope: "
+				     godoctor-scope
+				     nil
+				     nil
+				     'godoctor--scope-history)))
+    (setq godoctor-scope scope)))
 
 (provide 'godoctor)
 ;;; godoctor.el ends here
