@@ -49,7 +49,7 @@
 (defun godoctor-cmd (args dry-run)
   (let ((cmd (list godoctor-executable nil t nil))
         (with-dry-run (if dry-run args (cons "-w" args)))
-		(scope (if (string= "" godoctor-scope) nil (list "-scope" godoctor-scope))))
+        (scope (if (string= "" godoctor-scope) nil (list "-scope" godoctor-scope))))
     (append cmd scope with-dry-run)))
 
 (defun godoctor-rename-cmd (pos new-name &optional dry-run)
@@ -175,7 +175,7 @@
 
 ;;;###autoload
 (defun godoctor-set-scope ()
-  ; The set-scope command adapted from go-guru project.
+  ;; The set-scope command adapted from go-guru project.
   "Set the scope for the godoctor, prompting the user to edit the previous scope.
 
 The scope restricts analysis to the specified packages.
@@ -189,10 +189,10 @@ A pattern preceded by '-' is negative, so the scope
 matches all encoding packages except encoding/xml."
   (interactive)
   (let ((scope (read-from-minibuffer "Godoctor scope: "
-				     godoctor-scope
-				     nil
-				     nil
-				     'godoctor--scope-history)))
+                                     godoctor-scope
+                                     nil
+                                     nil
+                                     'godoctor--scope-history)))
     (setq godoctor-scope scope)))
 
 (provide 'godoctor)
