@@ -1,9 +1,9 @@
 ;;; godoctor.el --- Frontend for godoctor
 
-;; Copyright (C) 2016, 2018 james sangho nah <microamp@protonmail.com>
+;; Copyright (C) 2016, 2018 Sangho Na <microamp@protonmail.com>
 ;;
-;; Author: james sangho nah <microamp@protonmail.com>
-;; Version: 0.0.9
+;; Author: Sangho Na <microamp@protonmail.com>
+;; Version: 0.0.10
 ;; Keywords: go golang refactoring
 ;; Homepage: https://github.com/microamp/godoctor.el
 
