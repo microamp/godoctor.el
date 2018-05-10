@@ -46,6 +46,12 @@ See [Getting Started](http://gorefactor.org/starting.html) for more details.
 
 ![godoctor-godoc](https://cloud.githubusercontent.com/assets/1378791/19587360/510e99cc-97ba-11e6-8029-acfdbe015a45.gif)
 
+## Contributors
+
+- [@syohex](https://github.com/syohex)
+- [@grafov](https://github.com/grafov)
+- [@kreg](https://github.com/kreg)
+
 ## License
 
 GNU General Public License version 3
