@@ -117,7 +117,7 @@
     (let* ((compilation-buffer "*godoctor rename*")
            (new-name (symbol-name symbol))
            (len (length new-name))
-           (pos (format "%d,%d" (point) len))
+           (pos (format "%d,%d" (1- (car (bounds-of-thing-at-point 'symbol))) len))
            (new-name (read-string "New name: " new-name))
            (cmd (godoctor-rename-cmd pos new-name dry-run)))
       (godoctor--execute-command compilation-buffer cmd dry-run))))
