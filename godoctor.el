@@ -3,7 +3,7 @@
 ;; Copyright (C) 2016, 2018 Sangho Na <microamp@protonmail.com>
 ;;
 ;; Author: Sangho Na <microamp@protonmail.com>
-;; Version: 0.0.10
+;; Version: 0.6.0
 ;; Keywords: go golang refactoring
 ;; Homepage: https://github.com/microamp/godoctor.el
 
