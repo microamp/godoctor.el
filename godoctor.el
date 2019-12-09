@@ -106,6 +106,7 @@
   (when (buffer-modified-p)
     (error (format "Please save the current buffer before invoking %s" godoctor-executable))))
 
+
 ;;;###autoload
 (defun godoctor-rename (&optional dry-run)
   (interactive)
@@ -116,11 +117,18 @@
       (error "No symbol at point"))
     (let* ((compilation-buffer "*godoctor rename*")
            (new-name (symbol-name symbol))
-           (len (length new-name))
-           (pos (format "%d,%d" (1- (car (bounds-of-thing-at-point 'symbol))) len))
+           (bounds (bounds-of-thing-at-point 'symbol))
+           (pos1 (car bounds))
+           (pos2 (cdr bounds))
+           (linebgs (line-beginning-position))
+           (lineno (line-number-at-pos))
+           (pos (format "%d,%d:%d,%d"  lineno (- pos1 linebgs)
+                        lineno (- pos2 linebgs)))
            (new-name (read-string "New name: " new-name))
            (cmd (godoctor-rename-cmd pos new-name dry-run)))
-      (godoctor--execute-command compilation-buffer cmd dry-run))))
+      (godoctor--execute-command compilation-buffer cmd dry-run)
+      ;;(message pos)
+      )))
 
 ;;;###autoload
 (defun godoctor-rename-dry-run ()
